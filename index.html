@@ -30,6 +30,50 @@
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <link href="assets/css/main.css" rel="stylesheet">
+
+  <script type="text/javascript">
+  (function () {
+    emailjs.init({
+      publicKey: "DHhTcwyiLDvMh3zm2",
+    });
+  })();
+
+  function sendEmail(event) {
+    event.preventDefault();
+
+    const submitButton = document.querySelector('.btn.btn-primary');
+    submitButton.classList.add('loading');
+    submitButton.disabled = true;
+
+    const userName = document.getElementById("name").value;
+    const userEmail = document.getElementById("email").value;
+    const userSubject = document.getElementById("subject").value;
+    const userMessage = document.getElementsByName("message")[0].value;
+
+    const templateParams = {
+      to_name: "TrendBay Daily Solutions",
+      from_name: userName,
+      from_email: userEmail,
+      subject: userSubject,
+      message: userMessage,
+    };
+
+    emailjs.send("service_ppcp8bs", "template_w3ywg6x", templateParams)
+      .then(
+        function(response) {
+          console.log("SUCCESS!", response.status, response.text);
+          alert("Thank You, TrendBay Daily Solutions has received your message.");
+          window.location.href = "https://trendbayds.com";
+        },
+        function(error) {
+          console.log("FAILED...", error);
+          submitButton.classList.remove('loading');
+          submitButton.disabled = false;
+        }
+      );
+  }
+
+  </script>
 </head>
 
 <body class="index-page">
@@ -380,42 +424,27 @@
 
         </div>
 
-        <div class="row gy-4 mt-1">
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <img src="assets/img/cs.png" alt="Welcome to TrendBay - Fresh Produce and Quality Groceries" class="mobile-cs">
-          </div>
-
-          <div class="col-lg-6">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up"
-              data-aos-delay="400">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+        <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="300">
+          <div class="col-xl-9 col-lg-12 mt-4">
+            <form role="form" class="php-email-form" onsubmit="sendEmail(event);">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
                 </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
                 </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <button type="submit"
-                    onclick="location.href='mailto:hello@trendbayds.com?subject=' + encodeURIComponent(document.getElementById('subject').value) + '&body=Name: ' + encodeURIComponent(document.getElementById('name').value) + '%0D%0AEmail: ' + encodeURIComponent(document.getElementById('email').value) + '%0D%0ASubject: ' + encodeURIComponent(document.getElementById('subject').value) + '%0D%0AMessage: ' + encodeURIComponent(document.getElementsByName('message')[0].value); alert('Thank you! Your email app will open now. Expect a swift reply.'); document.getElementById('name').value = ''; document.getElementById('email').value = ''; document.getElementById('subject').value = ''; document.getElementsByName('message')[0].value = '';"
-                    class="btn btn-primary">Send Message</button>
-                </div>
-
               </div>
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group mt-3">
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              </br>
+              <div class="text-center"><button type="submit" class="btn btn-primary">Send Message</button></div>              
             </form>
           </div>
-
         </div>
 
       </div>
